@@ -20,7 +20,6 @@ steps:
                   git checkout main
                   
                   Write-Host 'Clean git folder...'
-                  Remove-Item $tenantPath -Force -Recurse
                   
                   Write-Host 'Installing modules...'
                   Install-Module Microsoft.Graph.Authentication -Scope CurrentUser -Force

@@ -12,7 +12,9 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      $tenantPath = './azureadexporter.json'
+      $date = Get-Date -UFormat "%A_%m/%d/%Y_%R"
+      New-Item "C:\AADExporter\$date"
+      $tenantPath = 'C:\AADExporter\$date'
       $tenantId = '220781bd-82b6-4316-bf67-c170b415ed23'
       Write-Host 'git checkout main...'
       git config --global core.longpaths true #needed for Windows

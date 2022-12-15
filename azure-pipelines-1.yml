@@ -1,0 +1,36 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool: default   # This is the pool in which you installed the agent.   
+
+steps:
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      $date = (Get-Date).ToString("yyyy-MM-dd") # Getting the date.    
+      New-Item "C:\$date" -Type Directory # Creates a new folder with the current date in the C drive, you can change the path.    
+      $tenantPath = "C:\$date" # Path where the files are going to be exported.    
+      $tenantId = "220xxxxd-8xx6-xx16-bxx7-xxxxb415ed23" # You Azure tenant ID.
+      Write-Host 'git checkout main...'
+      git config --global core.longpaths true #needed for Windows
+      git checkout main
+      
+      Write-Host 'Clean git folder...'
+      Remove-Item $tenantPath -Force -Recurse
+      
+      Write-Host 'Installing modules...' # Installing required modules.
+      Install-Module Microsoft.Graph.Authentication -Scope CurrentUser -Force
+      Install-Module AzureADExporter -Scope CurrentUser -Force
+      
+      Write-Host 'Connecting to AzureAD...'
+      Connect-AzureADExporter -TenantId $tenantId
+      
+      Write-Host 'Starting backup...'
+      Export-AzureAD $tenantPath -All # Getting and exporting all the information to the $tenantPath folder.
+

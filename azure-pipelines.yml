@@ -6,7 +6,8 @@
 trigger:
 - main
 
-pool: AAD-Exporter
+pool: default
+
 steps:
 - task: PowerShell@2
   inputs:

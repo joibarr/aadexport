@@ -14,7 +14,7 @@ steps:
     targetType: 'inline'
     script: |
       $date = (Get-Date).ToString("yyyy-MM-dd")
-      New-Item "C:\AADExporter\$date" -Type Directory
+      New-Item 'C:\AADExporter\$date' -Type Directory
       $tenantPath = 'C:\AADExporter\$date'
       $tenantId = '220781bd-82b6-4316-bf67-c170b415ed23'
       Write-Host 'git checkout main...'
